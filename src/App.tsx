@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/layout';
-import { ThemeProvider } from './context/theme-provider';
+import { ThemeProvider } from './components/context/theme-provider';
 import WeatherDashBoard from './Pages/WeatherDashBoard';
 import Citypage from './Pages/city-page';
 const App = () => {
