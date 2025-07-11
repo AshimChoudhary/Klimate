@@ -1,13 +1,16 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/layout';
 import { ThemeProvider } from './context/theme-provider';
+import WeatherDashBoard from './Pages/WeatherDashBoard';
+import Citypage from './Pages/city-page';
 const App = () => {
   return (
     <BrowserRouter>
       <ThemeProvider>
         <Layout>
           <Routes>
-            <Route path="/" element={} />
+            <Route path="/" element={<WeatherDashBoard />} />
+            <Route path="/city/:cityName" element={<Citypage />} />
           </Routes>
         </Layout>
       </ThemeProvider>
