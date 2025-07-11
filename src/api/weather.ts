@@ -1,5 +1,10 @@
 import { API_CONFIG } from './config';
-import type { Coordinates } from './types';
+import type {
+  Coordinates,
+  ForecastData,
+  GeoCodingResponse,
+  WeatherData,
+} from './types';
 
 class WeatherAPI {
   private createUrl(endpoint: string, params: Record<string, string | number>) {
@@ -18,12 +23,38 @@ class WeatherAPI {
 
     return response.json();
   }
-  async getCurrentWeather({ lat, long }: Coordinates) {
+  async getCurrentWeather({ lat, lon }: Coordinates): Promise<WeatherData> {
     const url = this.createUrl(`${API_CONFIG.BASE_URL}/weather`, {
       lat: lat.toString(),
-      long: long.toString(),
+      lon: lon.toString(),
+      units: API_CONFIG.DEFAULT_PARAMS.units,
     });
+
+    return this.fetchData<WeatherData>(url);
   }
-  async getForcast() {}
-  async reverseGeoCode() {}
+
+  async getForecast({ lat, lon }: Coordinates): Promise<ForecastData> {
+    const url = this.createUrl(`${API_CONFIG.BASE_URL}/forecast`, {
+      lat: lat.toString(),
+      lon: lon.toString(),
+      units: API_CONFIG.DEFAULT_PARAMS.units,
+    });
+
+    return this.fetchData<ForecastData>(url);
+  }
+
+  async reverseGeoCode({
+    lat,
+    lon,
+  }: Coordinates): Promise<GeoCodingResponse[]> {
+    const url = this.createUrl(`${API_CONFIG.GEO}/reverse`, {
+      lat: lat.toString(),
+      lon: lon.toString(),
+      limit: 1,
+    });
+
+    return this.fetchData<GeoCodingResponse[]>(url);
+  }
 }
+
+export const weatherAPI = new WeatherAPI();
